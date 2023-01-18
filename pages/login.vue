@@ -1,8 +1,8 @@
 <template>
-  <Head>
-    <title>Login</title>
-  </Head>
   <div class="flex-1 px-6 bg-indigo-50">
+    <Head>
+      <title>Login</title>
+    </Head>
     <div class="p-6 bg-white shadow max-w-sm rounded-md mx-auto mt-20">
       <div
         class="my-4 mb-10 flex items-center text-zinc-700 justify-center gap-2"

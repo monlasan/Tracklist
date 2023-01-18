@@ -1,6 +1,7 @@
 <script setup>
 const props = defineProps({
   text: String,
+  bType: String,
   full: Boolean,
   type: {
     validator(value) {
@@ -12,6 +13,7 @@ const props = defineProps({
 </script>
 <template>
   <button
+    :type="buttonType"
     class="self-start p-2 gap-2 text-sm flex justify-center items-center text-white rounded-md bg-task-4 hover:bg-task-5 transition-colors"
     :class="{
       'gap-2': $slots.iconRight,

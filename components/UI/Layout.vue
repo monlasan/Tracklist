@@ -7,7 +7,7 @@
       rel="stylesheet"
     />
   </Head>
-  <div class="min-h-screen font-poppins w-full bg-zinc-900 flex flex-col">
+  <div class="min-h-screen font-poppins w-full flex flex-col">
     <slot />
   </div>
 </template>

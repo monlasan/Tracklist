@@ -1,6 +1,7 @@
 <template>
   <UILayout>
-    <!-- <UINavbar /> -->
+    <UINavbar />
     <NuxtPage />
+    <div id="newTicketModal"></div>
   </UILayout>
 </template>

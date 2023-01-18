@@ -5,30 +5,16 @@ import { UsersIcon, TableIcon, Home2Icon } from 'vue-tabler-icons';
   <nav
     class="bg-white border-r p-6 py-7 flex flex-col items-center text-xs gap-7 font-medium"
   >
-    <NuxtLink to="/overview" class="flex group flex-col items-center"
-      ><div
-        class="w-12 h-12 grid place-items-center group-hover:text-task-3 transition-colors duration-100 rounded-full hover:shadow-sm hover:bg-task-1"
-      >
-        <home2-icon size="22" stroke-width="2.1" />
-      </div>
-      Aperçu</NuxtLink
-    >
-    <NuxtLink to="/board" class="flex group flex-col items-center"
-      ><div
-        class="w-12 h-12 grid place-items-center group-hover:text-task-3 transition-colors duration-100 rounded-full hover:shadow-sm hover:bg-task-1"
-      >
-        <table-icon size="22" stroke-width="2.1" />
-      </div>
-      Tableaux</NuxtLink
-    >
-    <NuxtLink to="/team" class="flex group flex-col items-center"
-      ><div
-        class="w-12 h-12 grid place-items-center group-hover:text-task-3 transition-colors duration-100 rounded-full hover:shadow-sm hover:bg-task-1"
-      >
-        <users-icon size="22" stroke-width="2.1" />
-      </div>
-      Team</NuxtLink
-    >
+    <UIBtnNavLink to="overview" text="overview">
+      <home2-icon size="22" stroke-width="2.1" />
+    </UIBtnNavLink>
+    <UIBtnNavLink to="boards" text="tableaux">
+      <table-icon size="22" stroke-width="2.1" />
+    </UIBtnNavLink>
+    <UIBtnNavLink to="team" text="team">
+      <users-icon size="22" stroke-width="2.1" />
+    </UIBtnNavLink>
+
     <img
       src="../../assets/images/Tracklist-Rounded-Color.png"
       alt="Tracklist Logo"
