@@ -79,7 +79,7 @@ onClickOutside(parent, () => (showMemberList.value = false));
       </ul>
 
       <div
-        class="border flex max-h-40 gap-2 items-start overflow-y-auto flex-wrap shadow rounded-md rounded-tl-none p-3 rounded-br-md"
+        class="border flex max-h-40 gap-2 items-start overflow-y-auto flex-wrap shadow rounded-md rounded-tl-none rounded-tr-none p-3 rounded-br-md"
       >
         <small
           class="text-xs mx-auto text-gray-700"

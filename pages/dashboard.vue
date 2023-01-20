@@ -1,14 +1,45 @@
 <script setup>
 import { onClickOutside } from '@vueuse/core';
 import { PlusIcon } from 'vue-tabler-icons';
+import useVuelidate from '@vuelidate/core';
+import {
+  required,
+  minLength,
+  maxLength,
+  helpers,
+  alpha,
+} from '@vuelidate/validators';
+
 const tables = useTables();
 const showAddTableModal = ref(false);
 
-function addingTable() {
-  return tables.value.push({
-    title: Math.floor(Math.random() * 10000),
-    tickets: [{ t: Math.floor(Math.random() * 100) }],
-  });
+// Logic: Adding new table
+const formNewTable = reactive({ tableName: 'aa' });
+const rules = {
+  tableName: {
+    required: helpers.withMessage('Ce champ ne peut pas être vide !', required),
+    minLength: helpers.withMessage('Pas moins de 4 caractères !', minLength(4)),
+    maxLength: helpers.withMessage('Pas plus de 8 caractères !', maxLength(8)),
+    alpha: helpers.withMessage(
+      'Des caractères alphabétiques uniquement !',
+      alpha
+    ),
+  },
+};
+const $v = useVuelidate(rules, formNewTable);
+async function addingTable() {
+  const validated = await $v.value.$validate();
+  if (validated) {
+    // Handle new table logic
+    tables.value.push({
+      title: Math.floor(Math.random() * 10000),
+      tickets: [{ t: Math.floor(Math.random() * 100) }],
+    });
+    // Close form popup and reset form values
+    showAddTableModal.value = false;
+    formNewTable.tableName = '';
+    $v.value.$reset();
+  }
 }
 // BTN ADD TABLE CLICK OUTSIDE
 const btnAddTable = ref(null);
@@ -51,17 +82,26 @@ onClickOutside(btnAddTable, () => (showAddTableModal.value = false));
                 class="font-medium text-xs mb-2 text-indigo-800 inline-block"
                 >Entrer le nom du tableau</small
               > -->
-              <div class="flex items-center gap-2">
+              <div class="flex items-center gap-2 mb-2">
                 <FormInputBase
                   label="Entrer le nom du tableau"
                   name="addtableinput"
+                  v-model="formNewTable.tableName"
                   class="shadow-none flex-1"
                 />
-
                 <UIBtnCircle bType="submit" class="self-end mb-1">
                   <plus-icon size="20" />
                 </UIBtnCircle>
               </div>
+              <ul class="list-disc list-inside pl-2">
+                <li
+                  :key="addtableinputError.$uid"
+                  v-for="addtableinputError in $v.tableName.$errors"
+                  class="text-xs text-red-600 font-medium"
+                >
+                  {{ addtableinputError.$message }}
+                </li>
+              </ul>
             </form>
           </Transition>
         </div>
