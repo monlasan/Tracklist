@@ -48,7 +48,7 @@ async function handleLogin() {
 <template>
   <div class="flex-1 px-6 bg-indigo-50">
     <Head>
-      <title>Connexion - Tracklist</title>
+      <title>Inscription - Tracklist</title>
     </Head>
     <form
       @submit.prevent="handleLogin"
