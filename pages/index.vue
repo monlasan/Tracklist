@@ -1,19 +1,28 @@
 <script setup>
+import { useDebounceFn } from '@vueuse/core';
 const query = ref('');
+const isLoading = ref(null);
 const filteredUsers = ref([]);
-const {
-  data: users,
-  pending,
-  refresh,
-} = await useFetch('http://localhost:3004/people');
-watch(users, () => {
-  console.log('lol');
-});
-watch(query, () => {
-  const ol = users.value.filter((user) =>
-    user.first_name.includes(query.value)
-  );
-  filteredUsers.value = ol;
+
+let timeoutId;
+
+// Ecouteur d'evenement
+watch(query, async () => {
+  isLoading = true;
+  clearTimeout(timeoutId);
+  filteredUsers.value = [];
+  timeoutId = setTimeout(async () => {
+    if (query.value.length > 0) {
+      console.log(query.value);
+      const { data: users } = await useFetch('http://localhost:3004/people');
+      const iuser = JSON.stringify(users.value);
+      const arrUser = JSON.parse(iuser);
+      filteredUsers.value = arrUser.filter((user) =>
+        user.first_name.toLowerCase().includes(query.value.toLowerCase())
+      );
+      isLoading = false;
+    }
+  }, 1000);
 });
 </script>
 <template>
@@ -21,22 +30,14 @@ watch(query, () => {
     <Head>
       <title>Home page</title>
     </Head>
-    <!-- you will need to handle a loading state -->
-    <!-- <div v-if="pending">Loading ...</div> -->
-    <!-- <div v-else> -->
     {{ query }}
     <input v-model="query" type="text" class="border shadow p-2" />
-    <div class="border border-indigo-800 p-2">
+    <div class="border border-zinc-400 border-dashed p-2 py-4 my-8 rounded-md">
       <ol v-for="filtered in filteredUsers">
         {{
           filtered.first_name
         }}
       </ol>
     </div>
-    <UIBtnRegular text="refresh" @click="refresh" />
-    <div v-for="user in users">
-      <b>{{ user.first_name }}</b>
-    </div>
-    <!-- </div> -->
   </div>
 </template>

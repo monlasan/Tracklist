@@ -47,17 +47,18 @@ onClickOutside(btnAddTable, () => (showAddTableModal.value = false));
               @submit.prevent="addingTable"
               class="p-2 mt-4 rounded-md shadow-xl border"
             >
-              <small
+              <!-- <small
                 class="font-medium text-xs mb-2 text-indigo-800 inline-block"
                 >Entrer le nom du tableau</small
-              >
+              > -->
               <div class="flex items-center gap-2">
-                <input
-                  type="text"
-                  class="outline-indigo-200 p-1 px-2 border flex-1 rounded-md"
+                <FormInputBase
+                  label="Entrer le nom du tableau"
+                  name="addtableinput"
+                  class="shadow-none flex-1"
                 />
 
-                <UIBtnCircle bType="submit">
+                <UIBtnCircle bType="submit" class="self-end mb-1">
                   <plus-icon size="20" />
                 </UIBtnCircle>
               </div>

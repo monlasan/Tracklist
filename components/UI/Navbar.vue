@@ -18,6 +18,11 @@
         to="login"
         >Login</nuxt-link
       >
+      <nuxt-link
+        class="p-2 rounded-md hover:bg-white/10 transition-colors"
+        to="widgets"
+        >Widgets</nuxt-link
+      >
     </nav>
   </header>
 </template>

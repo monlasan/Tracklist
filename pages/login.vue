@@ -31,12 +31,11 @@
         name="password"
         id="password"
       />
-      <button
-        type="submit"
-        class="w-full bg-indigo-600 mt-4 text-center text-sm font-medium text-white p-2 py-3 rounded-md"
-      >
-        Se connecter
-      </button>
+      <UIBtnRegular text="Se connecter" type="blue" class="mt-4 py-3" full />
+      <p class="text-xs text-center mt-4 text-zinc-600">
+        Pas encore de compte ?
+        <span class="text-task-5 underline">Créez en un</span>
+      </p>
       <div
         class="text-sm flex flex-col justify-between gap-y-2 md:flex-row text-zinc-700 items-center mt-4 accent-indigo-600"
       >

@@ -12,6 +12,7 @@ const ticketDescription = ref('');
 const ticketEstimatedTime = ref(0);
 const ticketType = ref('');
 const ticketPriority = ref('');
+const ticketTeam = ref([]);
 
 const tables = useTables();
 
@@ -75,54 +76,36 @@ onClickOutside(modal, () => (showModal.value = false));
               /></UIBtnCircle>
             </header>
             <form @submit.prevent="addTicket" class="flex flex-col gap-4">
-              <label for="ticket_title" class="text-xs font-medium">
-                <span class="inline-block mb-1">Titre</span>
-                <input
-                  type="text"
-                  id="ticket_title"
-                  class="outline-indigo-200 p-1 px-2 text-base border flex-1 w-full shadow rounded-md"
-                  v-model="ticketTitle"
-                />
-              </label>
-              <label for="ticket_description" class="text-xs font-medium">
-                <span class="inline-block mb-1">Description</span>
-                <textarea
-                  id="ticket_description"
-                  class="outline-indigo-200 p-1 px-2 text-base border flex-1 w-full shadow rounded-md"
-                  v-model="ticketDescription"
-                ></textarea>
-              </label>
-              <FormAddMember />
+              <FormInputBase
+                label="Titre"
+                name="ticketTitle"
+                v-model="ticketTitle"
+              />
+              <FormTextarea
+                label="Description"
+                name="ticketDescription"
+                v-model="ticketDescription"
+              />
+              <FormAddMember v-model="ticketTeam" />
               <div class="flex gap-3 flex-col sm:flex-row">
-                <label for="ticket_estimate_time" class="text-xs font-medium">
-                  <span class="inline-block mb-1">Temps estimé (heures)</span>
-                  <input
-                    type="number"
-                    id="ticket_estimate_time"
-                    class="outline-indigo-200 p-2 px-2 text-sm border flex-1 w-full shadow rounded-md"
-                    v-model="ticketEstimatedTime"
-                  />
-                </label>
-                <label for="ticket_type" class="text-xs font-medium">
-                  <span class="inline-block mb-1">Type</span>
-                  <select
-                    id="ticket_type"
-                    class="outline-indigo-200 p-2 text-sm border flex-1 w-full shadow rounded-md"
-                    v-model="ticketType"
-                  >
-                    <option>Volvo XC90</option>
-                  </select>
-                </label>
-                <label for="ticket_priority" class="text-xs font-medium">
-                  <span class="inline-block mb-1">Priorité</span>
-                  <select
-                    id="ticket_priority"
-                    class="outline-indigo-200 p-2 text-sm border flex-1 w-full shadow rounded-md"
-                    v-model="ticketPriority"
-                  >
-                    <option>Volvo XC90</option>
-                  </select>
-                </label>
+                <FormInputBase
+                  type="number"
+                  label="Temps estimé (heures)"
+                  name="ticketEstimatedTime"
+                  v-model="ticketEstimatedTime"
+                />
+                <FormSelect
+                  label="Type"
+                  name="ticketType"
+                  v-model="ticketType"
+                  :items="['Misc', 'degen']"
+                />
+                <FormSelect
+                  label="Priorité"
+                  name="ticketPriority"
+                  v-model="ticketPriority"
+                  :items="['Urgent', 'morka']"
+                />
               </div>
               <UIBtnRegular
                 bType="submit"
