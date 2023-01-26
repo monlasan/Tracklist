@@ -112,6 +112,7 @@ async function addTicket() {
 
 // Click Outside the modal
 const modal = ref(null);
+
 onClickOutside(modal, () => (openTicketModal.value = false));
 </script>
 <template>
