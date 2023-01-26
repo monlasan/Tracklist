@@ -8,10 +8,7 @@ const props = defineProps({
 <template>
   <li class="cursor-pointer transition-all py-3 bg-white rounded shadow">
     <div class="flex px-3 justify-between items-center">
-      <div class="flex gap-2 justify-between items-center">
-        <UIBtnTicketType text="Urgent" type="red" />
-        <UIBadge text="In review" />
-      </div>
+      <UIBadge text="In review" />
 
       <div class="flex items-center text-sm gap-1 text-indigo-500">
         <message-icon size="20" />
@@ -32,6 +29,7 @@ const props = defineProps({
     </p>
 
     <ul class="flex mt-4 px-3 flex-wrap gap-1">
+      <UIBtnTicketType text="Urgent" type="red" />
       <UIBadge text="Urgent yes" type="gray" />
     </ul>
     <div class="flex items-center px-3 justify-between mt-4">

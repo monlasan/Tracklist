@@ -58,7 +58,7 @@ onClickOutside(btnAddTable, () => (showAddTableModal.value = false));
     </Head>
     <Transition name="modal">
       <div v-if="openTicketModal" class="flex fixed inset-0 z-50">
-        <temp />
+        <ModalNewTicketForm />
       </div>
     </Transition>
     <UIAsideNavigation />
