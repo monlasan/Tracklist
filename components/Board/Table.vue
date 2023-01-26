@@ -15,6 +15,9 @@ const props = defineProps({
   table: undefined,
 });
 
+// Stores
+const openTicketModal = useStoreOpenNewTicketModal();
+
 // FORM REFS
 const ticketTitle = ref('');
 const ticketDescription = ref('');
@@ -125,11 +128,11 @@ async function addTicket() {
   // }
 }
 
-// Ticket modal
-const showModal = ref(false);
-// Click Outside the modal
-const modal = ref(null);
-onClickOutside(modal, () => (showModal.value = false));
+// // Ticket modal
+// const showModal = ref(false);
+// // Click Outside the modal
+// const modal = ref(null);
+// onClickOutside(modal, () => (showModal.value = false));
 </script>
 
 <template>
@@ -142,7 +145,7 @@ onClickOutside(modal, () => (showModal.value = false));
     </div>
 
     <button
-      @click="showModal = true"
+      @click="openTicketModal = true"
       class="text-sm my-3 flex items-center hover:bg-task-3 hover:border hover:border-indigo-200 hover:text-white border-task-2 border text-gray-600 gap-3 pr-3 p-1 rounded-md"
     >
       <div class="bg-task-3 p-1 rounded-md text-white">
@@ -160,11 +163,11 @@ onClickOutside(modal, () => (showModal.value = false));
     </ul>
 
     <!-- <Teleport to="#newTicketModal"> -->
-    <Transition name="modal">
+    <!-- <Transition name="modal">
       <div v-if="showModal" class="flex bg-black/50 fixed inset-0">
         <div ref="modal">OKMA</div>
       </div>
-    </Transition>
+    </Transition> -->
     <!-- </Teleport> -->
   </div>
 </template>

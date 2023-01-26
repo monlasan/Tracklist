@@ -1,6 +1,7 @@
 <script setup>
 import { onClickOutside } from '@vueuse/core';
 import { PlusIcon, BellIcon, LogoutIcon } from 'vue-tabler-icons';
+
 import useVuelidate from '@vuelidate/core';
 import {
   required,
@@ -19,8 +20,10 @@ const {
 } = useFetch('http://localhost:3001/table', { immediate: true });
 // });
 
-// const tables = useTables();
 const showAddTableModal = ref(false);
+
+// Store
+const openTicketModal = useStoreOpenNewTicketModal();
 
 // Logic: Adding new table
 const formNewTable = reactive({ tableName: '' });
@@ -39,12 +42,6 @@ const $v = useVuelidate(rules, formNewTable);
 async function addingTable() {
   const validated = await $v.value.$validate();
   if (validated) {
-    // Handle new table logic
-    // tables.value.push({
-    //   title: Math.floor(Math.random() * 10000),
-    //   tickets: [{ t: Math.floor(Math.random() * 100) }],
-    // });
-    // Close form popup and reset form values
     showAddTableModal.value = false;
     formNewTable.tableName = '';
     $v.value.$reset();
@@ -59,7 +56,11 @@ onClickOutside(btnAddTable, () => (showAddTableModal.value = false));
     <Head>
       <title>Dashboard</title>
     </Head>
-
+    <Transition name="modal">
+      <div v-if="openTicketModal" class="flex fixed inset-0 z-50">
+        <temp />
+      </div>
+    </Transition>
     <UIAsideNavigation />
     <div class="flex-1 p-9 pr-0 flex flex-col overflow-hidden">
       <header class="flex justify-between mr-9">
@@ -142,17 +143,20 @@ onClickOutside(btnAddTable, () => (showAddTableModal.value = false));
 </template>
 
 <style>
-/* @media (min-width: 640px) {
-  .th-scroll {}
-} */
-/* @media (min-width: 768px) {
-  .th-scroll {
-  }
+.modal-enter-active,
+.modal-leave-active {
+  transition: all 0.25s ease;
 }
-@media (min-width: 1024px) {
-  .th-scroll {
-  }
-} */
+.modal-enter-from,
+.modal-leave-to {
+  opacity: 0;
+  transform: translateX(-10px);
+}
+/* 
+@media (min-width: 640px)
+@media (min-width: 768px)
+@media (min-width: 1024px)
+*/
 @media (min-width: 1500px) {
   .th-scroll {
     grid-auto-columns: 22%;
@@ -170,7 +174,7 @@ onClickOutside(btnAddTable, () => (showAddTableModal.value = false));
 .th-scroll-child {
   transform: rotateX(180deg);
 }
-/* firefix */
+/* firefox */
 .th-scroll::-webkit-scrollbar {
   width: 5px;
 }
