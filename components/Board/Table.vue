@@ -1,123 +1,171 @@
 <script setup>
 import { PlusIcon, DotsIcon, MessageIcon } from 'vue-tabler-icons';
 import { onClickOutside } from '@vueuse/core';
+import {
+  required,
+  alphaNum,
+  numeric,
+  helpers,
+  minLength,
+  maxLength,
+} from '@vuelidate/validators';
+import useVuelidate from '@vuelidate/core';
+
 const props = defineProps({
-  name: String,
-  tickets: null,
+  table: undefined,
 });
 
 // FORM REFS
 const ticketTitle = ref('');
 const ticketDescription = ref('');
+const ticketTeam = ref([]);
+const ticketTags = ref('');
 const ticketEstimatedTime = ref(0);
 const ticketType = ref('');
 const ticketPriority = ref('');
-const ticketTeam = ref([]);
 
-const tables = useTables();
+const ticketTagsSeparated = computed(() =>
+  ticketTags.value
+    .split(',')
+    .map((t) => t.trim())
+    .filter((t) => t !== '')
+);
 
-function addTicket() {
-  const ticket = {
+const ticketToValidate = computed(() => {
+  return {
     title: ticketTitle.value,
     description: ticketDescription.value,
+    tags: ticketTagsSeparated.value,
     estimatedTime: ticketEstimatedTime.value,
     type: ticketType.value,
     priority: ticketPriority.value,
   };
-  console.log(ticket);
+});
+const rules = {
+  title: {
+    required: helpers.withMessage('Titre: Ce champ est requis !', required),
+    alphaNum: helpers.withMessage(
+      'Titre: Seulement des caractères alphanumériques !',
+      alphaNum
+    ),
+    minLength: helpers.withMessage(
+      'Titre: Au moins 4 caractères !',
+      minLength(4)
+    ),
+    maxLength: helpers.withMessage(
+      'Titre: Au plus 50 caractères !',
+      maxLength(50)
+    ),
+  },
+  description: {
+    required: helpers.withMessage(
+      'Description: Ce champ est requis !',
+      required
+    ),
+    alphaNum: helpers.withMessage(
+      'Description: Seulement des caractères alphanumériques !',
+      alphaNum
+    ),
+    minLength: helpers.withMessage(
+      'Description: Au moins 6 caractères !',
+      minLength(6)
+    ),
+    maxLength: helpers.withMessage(
+      'Description: Au plus 50 caractères !',
+      maxLength(50)
+    ),
+  },
+  tags: {
+    required: helpers.withMessage('Tags: Ce champ est requis !', required),
+    minLength: helpers.withMessage(
+      'Tags: Au moins 4 caractères !',
+      minLength(4)
+    ),
+    maxLength: helpers.withMessage(
+      'Tags: Au plus 30 caractères !',
+      maxLength(30)
+    ),
+    alphaNum: helpers.withMessage(
+      'Tags: Seulement des caractères alphanumériques !',
+      alphaNum
+    ),
+  },
+  estimatedTime: {
+    required: helpers.withMessage(
+      'Temps estimé: Ce champ est requis !',
+      required
+    ),
+    numeric: helpers.withMessage(
+      'Temps estimé: Seulement des chiffres !',
+      numeric
+    ),
+  },
+  type: {
+    required: helpers.withMessage('Type: Ce champ est requis !', required),
+  },
+  priority: {
+    required: helpers.withMessage('Priorité: Ce champ est requis !', required),
+  },
+};
+const $v = useVuelidate(rules, ticketToValidate);
+
+async function addTicket() {
+  const validatedLogin = await $v.value.$validate();
+  console.log(ticketToValidate.value);
+
+  // console.log($v.value.$errors);
+
+  // if (validatedLogin) {
+  //   const ticketDataMisc = {
+  //     imageUrl: null, // Add Img Url
+  //     initiator: null /** Add current user ID */,
+  //     table: null, // Add current table ID
+  //   };
+  //   console.log(ticketDataMisc);
+  // }
 }
+
 // Ticket modal
 const showModal = ref(false);
 // Click Outside the modal
 const modal = ref(null);
 onClickOutside(modal, () => (showModal.value = false));
 </script>
+
 <template>
   <div class="p-4 bg-task-2 th-scroll-child min-w-[300px] rounded-md self-end">
     <div class="flex justify-between">
-      <h4 class="text-lg text-zinc-800 font-medium">{{ name }}</h4>
-      <UIBtnCircle> <dots-icon size="20" /> </UIBtnCircle>
+      <h4 class="text-lg text-zinc-800 font-medium">{{ table.name }}</h4>
+      <UIBtnCircle type="light" size="28">
+        <dots-icon size="18" />
+      </UIBtnCircle>
     </div>
-    <ul class="flex flex-col my-4 gap-4">
-      <Ticket
-        v-for="ticket in tickets"
-        :title="ticket.t"
-        createdAt="15 Nov 2022 - 12h30"
-      />
-    </ul>
-    <UIBtnRegular
+
+    <button
       @click="showModal = true"
-      text="Ajouter un ticket"
-      full
-      type="zinc"
-      v-slot:iconLeft
+      class="text-sm my-3 flex items-center hover:bg-task-3 hover:border hover:border-indigo-200 hover:text-white border-task-2 border text-gray-600 gap-3 pr-3 p-1 rounded-md"
     >
-      <plus-icon size="20" />
-    </UIBtnRegular>
-    <Teleport to="#newTicketModal">
-      <Transition name="modal">
-        <div
-          v-if="showModal"
-          class="flex justify-center items-start pt-10 bg-black/50 px-8 fixed inset-0"
-        >
-          <div
-            ref="modal"
-            class="px-6 pb-6 rounded-md overflow-hidden bg-white w-full max-w-xl shadow-md"
-          >
-            <header
-              class="flex py-4 px-6 -mx-6 mb-6 bg-task-4 text-white items-center border-b justify-between"
-            >
-              <span class="font-medium text-xl">Ajouter un ticket</span>
-              <UIBtnCircle
-                type="white"
-                @click="showModal = false"
-                class="rotate-45"
-                ><plus-icon size="20"
-              /></UIBtnCircle>
-            </header>
-            <form @submit.prevent="addTicket" class="flex flex-col gap-4">
-              <FormInputBase
-                label="Titre"
-                name="ticketTitle"
-                v-model="ticketTitle"
-              />
-              <FormTextarea
-                label="Description"
-                name="ticketDescription"
-                v-model="ticketDescription"
-              />
-              <FormAddMember v-model="ticketTeam" />
-              <div class="flex gap-3 flex-col sm:flex-row">
-                <FormInputBase
-                  type="number"
-                  label="Temps estimé (heures)"
-                  name="ticketEstimatedTime"
-                  v-model="ticketEstimatedTime"
-                />
-                <FormSelect
-                  label="Type"
-                  name="ticketType"
-                  v-model="ticketType"
-                  :items="['Misc', 'degen']"
-                />
-                <FormSelect
-                  label="Priorité"
-                  name="ticketPriority"
-                  v-model="ticketPriority"
-                  :items="['Urgent', 'morka']"
-                />
-              </div>
-              <UIBtnRegular
-                bType="submit"
-                text="Créer"
-                class="px-4 mt-3"
-                full
-              />
-            </form>
-          </div>
-        </div>
-      </Transition>
-    </Teleport>
+      <div class="bg-task-3 p-1 rounded-md text-white">
+        <plus-icon size="17" />
+      </div>
+      Ajouter un ticket
+    </button>
+    <ul class="flex flex-col gap-4">
+      <div
+        class="bg-indigo-100 border-indigo-300 text-center text-indigo-700 border border-dashed rounded-md p-8 py-4 text-xs"
+      >
+        Aucun ticket
+      </div>
+      <!-- <Ticket :title="lol" createdAt="15 Nov 2022 - 12h30" /> -->
+    </ul>
+
+    <!-- <Teleport to="#newTicketModal"> -->
+    <Transition name="modal">
+      <div v-if="showModal" class="flex bg-black/50 fixed inset-0">
+        <div ref="modal">OKMA</div>
+      </div>
+    </Transition>
+    <!-- </Teleport> -->
   </div>
 </template>
 <style>
@@ -128,6 +176,6 @@ onClickOutside(modal, () => (showModal.value = false));
 .modal-enter-from,
 .modal-leave-to {
   opacity: 0;
-  transform: scale(1.1);
+  transform: translateX(-10px);
 }
 </style>

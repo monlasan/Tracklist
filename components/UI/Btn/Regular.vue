@@ -7,13 +7,12 @@ const props = defineProps({
     validator(value) {
       return ['red', 'orange', 'blue', 'gray'].includes(value);
     },
-    required: true,
   },
 });
 </script>
 <template>
   <button
-    :type="buttonType"
+    :type="bType"
     class="self-start p-2 gap-2 outline-none text-sm flex justify-center items-center text-white rounded-md bg-task-4 hover:bg-task-5 transition-colors"
     :class="{
       'gap-2': $slots.iconRight,

@@ -6,28 +6,37 @@ const props = defineProps({
 });
 </script>
 <template>
-  <li
-    class="p-3 cursor-pointer hover:scale-[102%] hover:border-task-3 border-t-2 border-white transition-all bg-white rounded shadow"
-  >
-    <div class="flex justify-between items-center">
-      <UIBadge text="Urgent" type="blue" />
-      <UIBadge text="2" type="orange" v-slot:icon>
+  <li class="cursor-pointer transition-all py-3 bg-white rounded shadow">
+    <div class="flex px-3 justify-between items-center">
+      <div class="flex gap-2 justify-between items-center">
+        <UIBtnTicketType text="Urgent" type="red" />
+        <UIBadge text="In review" />
+      </div>
+
+      <div class="flex items-center text-sm gap-1 text-indigo-500">
         <message-icon size="20" />
-      </UIBadge>
+        2
+      </div>
     </div>
-    <h4 class="mt-4 text-sm font-medium">{{ title }}</h4>
+    <h4 class="mt-4 px-3 text-sm font-medium">
+      Lorem ipsum dolor sit amet consectetur
+    </h4>
     <!-- <img
-      src="../assets/images/example-image-ticket.PNG"
-      class="mt-4 rounded-md aspect-video w-full object-cover"
+      src="../assets/images/itachi.jpg"
+      class="mt-4 aspect-video w-full object-cover"
       alt=""
     /> -->
-    <p class="mt-2 text-xs text-zinc-700">{{ title }}</p>
-    <ul class="flex mt-4 flex-wrap gap-1">
+    <p class="mt-4 px-3 text-xs text-zinc-700">
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias quod
+      architecto voluptas temporibus asperiores.
+    </p>
+
+    <ul class="flex mt-4 px-3 flex-wrap gap-1">
       <UIBadge text="Urgent yes" type="gray" />
     </ul>
-    <div class="flex items-center justify-between mt-4">
+    <div class="flex items-center px-3 justify-between mt-4">
       <UIAvatarStack />
-      <small class="text-xs">{{ createdAt }}</small>
+      <small class="text-xs text-zinc-600">{{ createdAt }}</small>
     </div>
   </li>
 </template>

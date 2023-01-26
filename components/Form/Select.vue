@@ -31,7 +31,7 @@ defineEmits(['update:modelValue']);
     <select
       :id="name"
       id="ticket_type"
-      class="outline-indigo-200 p-1 px-2 text-base border w-full shadow rounded-md"
+      class="outline-indigo-200 bg-zinc-50 p-1 px-2 text-base border w-full shadow-sm rounded-md"
       :value="modelValue"
       @input="$emit('update:modelValue', $event.target.value)"
     >

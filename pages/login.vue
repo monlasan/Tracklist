@@ -37,12 +37,21 @@ async function handleLogin() {
   const validatedLogin = await $v.value.$validate();
   if (validatedLogin) {
     //TODO: Add real supabase login logic here
+    login();
     console.log(formLogin);
 
     formLogin.email = '';
     formLogin.password = '';
     $v.value.$reset();
   }
+}
+async function login() {
+  // const { user, error } = await client.auth.signUp({
+  //   email: email.value,
+  //   password: password.value
+  // })
+  console.log('user', user);
+  console.log('error', error);
 }
 </script>
 <template>
@@ -54,11 +63,6 @@ async function handleLogin() {
       @submit.prevent="handleLogin"
       class="p-6 relative bg-white shadow max-w-sm rounded-md mx-auto mt-24"
     >
-      <!-- <h2
-        class="absolute left-1/2 -translate-x-1/2 top-0 rounded-xl rounded-tl-none rounded-tr-none bg-indigo-600 text-white p-2 px-6 text-xl"
-      >
-        Connexion
-      </h2> -->
       <UILogoFull />
       <div class="flex flex-col gap-2">
         <div class="grid grid-cols-3 items-center mt-2">

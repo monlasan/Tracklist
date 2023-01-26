@@ -1,5 +1,9 @@
 <script setup>
 const props = defineProps({
+  tall: {
+    type: String,
+    default: '',
+  },
   name: {
     type: String,
     default: '',
@@ -25,7 +29,8 @@ defineEmits(['update:modelValue']);
       :value="modelValue"
       @input="$emit('update:modelValue', $event.target.value)"
       v-bind="$attrs"
-      class="outline-indigo-200 p-1 px-2 text-base border w-full shadow rounded-md"
+      :style="[tall ? 'height:' + tall + 'px' : null]"
+      class="outline-indigo-200 p-1 bg-zinc-100 px-2 text-base border w-full shadow-sm rounded-md"
     >
     </textarea>
   </label>

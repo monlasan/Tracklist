@@ -55,7 +55,7 @@ onClickOutside(parent, () => (showMemberList.value = false));
           :id="name"
           v-model="query"
           @focus="showMemberList = true"
-          class="outline-indigo-200 p-1 px-2 pl-7 w-full max-w-[250px] text-base border border-b-0 rounded-tl-md rounded-tr-md"
+          class="outline-indigo-200 p-1 px-2 pl-7 w-full bg-zinc-50 max-w-[250px] text-base border border-b-0 rounded-tl-md rounded-tr-md"
         />
       </div>
       <ul
@@ -79,7 +79,7 @@ onClickOutside(parent, () => (showMemberList.value = false));
       </ul>
 
       <div
-        class="border flex max-h-40 gap-2 items-start overflow-y-auto flex-wrap shadow rounded-md rounded-tl-none rounded-tr-none p-3 rounded-br-md"
+        class="border flex max-h-40 gap-2 items-start overflow-y-auto flex-wrap shadow-sm rounded-md rounded-tl-none rounded-tr-none p-3 rounded-br-md"
       >
         <small
           class="text-xs mx-auto text-gray-700"
@@ -94,7 +94,7 @@ onClickOutside(parent, () => (showMemberList.value = false));
           <UIAvatarRegular w="24" class="mr-2" />
           {{ member }}
           <i
-            class="rounded-full cursor-pointer ml-1 hover:bg-zinc-200 hover:text-zinc-700 text-zinc-600 w-5 h-5 grid place-items-center"
+            class="rounded-full cursor-pointer ml-1 border border-zinc-300 bg-zinc-200 hover:border-zinc-200 hover:text-zinc-700 text-zinc-600 w-5 h-5 grid place-items-center"
             @click="deleteMember(idx)"
           >
             <x-icon size="12" />
