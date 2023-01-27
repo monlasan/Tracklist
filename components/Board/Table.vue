@@ -33,7 +33,7 @@ const openTicketModal = useStoreOpenNewTicketModal();
       >
         Aucun ticket
       </div> -->
-      <Ticket :title="lol" createdAt="15 Nov 2022 - 12h30" />
+      <Ticket createdAt="15 Nov 2022 - 12h30" />
     </ul>
   </div>
 </template>
