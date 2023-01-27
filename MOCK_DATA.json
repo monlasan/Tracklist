@@ -1,31 +1,3 @@
 {
-  "table": [
-    {
-      "id": 1,
-      "createdAt": "156.228.23.119",
-      "updatedAt": "107.250.162.97",
-      "name": "Backlog",
-      "tickets": [1, 3, 8, 9],
-      "project": "Amadeus",
-      "projectId": "3"
-    },
-    {
-      "id": 2,
-      "createdAt": "107.250.162.97",
-      "updatedAt": "156.228.23.119",
-      "name": "In progress",
-      "tickets": [2, 4, 5, 7],
-      "project": "MacDo Website",
-      "projectId": "4"
-    },
-    {
-      "id": 3,
-      "createdAt": "156.23.228.119",
-      "updatedAt": "250.107.162.97",
-      "name": "Done",
-      "tickets": [11, 41],
-      "project": "FranklynLab",
-      "projectId": "7"
-    }
-  ]
+  "table": []
 }

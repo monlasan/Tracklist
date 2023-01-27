@@ -1,6 +1,7 @@
 <script setup>
 import { onClickOutside } from '@vueuse/core';
 import { PlusIcon, BellIcon, LogoutIcon } from 'vue-tabler-icons';
+import useSWRV from 'swrv';
 
 import useVuelidate from '@vuelidate/core';
 import {
@@ -13,11 +14,14 @@ import {
 
 // FETCH TABLES DATA
 // onMounted(() => {
-const {
-  data: fetchedTables,
-  pending,
-  error,
-} = useFetch('http://localhost:3001/table', { immediate: true });
+const { data: tables, error: tablesError } = useSWRV(
+  'http://localhost:3001/table'
+);
+// const {
+//   data: tables,
+//   pending,
+//   error,
+// } = useFetch('http://localhost:3001/table', { immediate: true });
 // });
 
 const showAddTableModal = ref(false);
@@ -97,46 +101,60 @@ onClickOutside(btnAddTable, () => (showAddTableModal.value = false));
       </header>
 
       <div class="mt-10 grid th-scroll gap-6 w-full pb-4 h-full">
-        <div
-          v-if="pending"
-          class="w-8 h-8 aspect-square animate-spin border-4 border-task-4 bg-white"
-        ></div>
-        <BoardTable
-          v-for="(table, idx) in fetchedTables"
-          :key="idx"
-          :table="table"
-        />
-        <div class="th-scroll-child self-end" ref="btnAddTable">
-          <UIBtnAddTable @click="showAddTableModal = !showAddTableModal" />
-          <Transition name="popup">
-            <form
-              v-if="showAddTableModal"
-              @submit.prevent="addingTable"
-              class="p-2 mt-4 rounded-md shadow-xl border"
-            >
-              <div class="flex items-center gap-2 mb-2">
-                <FormInputBase
-                  label="Entrer le nom du tableau"
-                  name="addtableinput"
-                  v-model="formNewTable.tableName"
-                  class="shadow-none flex-1"
-                />
-                <UIBtnCircle bType="submit" size="25" class="self-end mb-1">
-                  <plus-icon size="20" />
-                </UIBtnCircle>
-              </div>
-              <ul class="list-disc list-inside pl-2">
-                <li
-                  :key="addtableinputError.$uid"
-                  v-for="addtableinputError in $v.tableName.$errors"
-                  class="text-xs text-red-600 font-medium"
-                >
-                  {{ addtableinputError.$message }}
-                </li>
-              </ul>
-            </form>
-          </Transition>
-        </div>
+        <ClientOnly>
+          <template #fallback>
+            <UITableLoading class="th-scroll-child self-end" />
+            <div class="th-scroll-child self-end" ref="btnAddTable">
+              <UIBtnTableAdd @click="showAddTableModal = !showAddTableModal" />
+            </div>
+          </template>
+          <UITableLoading v-if="!tables" />
+          <UITableError v-if="tablesError" />
+          <div
+            class="th-scroll-child text-center text-sm p-4 rounded-md self-end border border-indigo-300 border-dashed text-indigo-800 bg-indigo-200/50"
+            v-if="tables.length === 0"
+          >
+            Aucun tableau pour ce projet !
+          </div>
+          <template v-else="tables">
+            <BoardTable
+              v-for="(table, idx) in tables"
+              :key="idx"
+              :table="table"
+            />
+          </template>
+          <div class="th-scroll-child self-end" ref="btnAddTable">
+            <UIBtnTableAdd @click="showAddTableModal = !showAddTableModal" />
+            <Transition name="popup">
+              <form
+                v-if="showAddTableModal"
+                @submit.prevent="addingTable"
+                class="p-2 mt-4 rounded-md shadow-xl border"
+              >
+                <div class="flex items-center gap-2 mb-2">
+                  <FormInputBase
+                    label="Entrer le nom du tableau"
+                    name="addtableinput"
+                    v-model="formNewTable.tableName"
+                    class="shadow-none flex-1"
+                  />
+                  <UIBtnCircle bType="submit" size="25" class="self-end mb-1">
+                    <plus-icon size="20" />
+                  </UIBtnCircle>
+                </div>
+                <ul class="list-disc list-inside pl-2">
+                  <li
+                    :key="addtableinputError.$uid"
+                    v-for="addtableinputError in $v.tableName.$errors"
+                    class="text-xs text-red-600 font-medium"
+                  >
+                    {{ addtableinputError.$message }}
+                  </li>
+                </ul>
+              </form>
+            </Transition>
+          </div>
+        </ClientOnly>
       </div>
     </div>
   </div>

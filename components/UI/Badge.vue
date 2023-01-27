@@ -5,7 +5,6 @@ defineProps({
     validator(value) {
       return ['red', 'orange', 'blue', 'gray'].includes(value);
     },
-    required: true,
   },
 });
 </script>
