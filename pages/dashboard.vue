@@ -13,16 +13,11 @@ import {
 } from '@vuelidate/validators';
 
 // FETCH TABLES DATA
-// onMounted(() => {
-const { data: tables, error: tablesError } = useSWRV(
-  'http://localhost:3001/table'
-);
-// const {
-//   data: tables,
-//   pending,
-//   error,
-// } = useFetch('http://localhost:3001/table', { immediate: true });
-// });
+const {
+  data: tables,
+  error: tablesError,
+  mutate: mutateTables,
+} = useSWRV('http://localhost:3001/table');
 
 const showAddTableModal = ref(false);
 
@@ -46,9 +41,25 @@ const $v = useVuelidate(rules, formNewTable);
 async function addingTable() {
   const validated = await $v.value.$validate();
   if (validated) {
+    await fetch('http://localhost:3001/table', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        createdAt: new Date().toString(),
+        updatedAt: new Date().toISOString(),
+        name: formNewTable.tableName,
+        tickets: [1, 7, 9, 42],
+        project: new Date().toLocaleString(),
+        projectId: Math.floor(Math.random() * 500).toString(),
+      }),
+    });
+
     showAddTableModal.value = false;
     formNewTable.tableName = '';
     $v.value.$reset();
+    mutateTables();
   }
 }
 // BTN ADD TABLE CLICK OUTSIDE
@@ -112,7 +123,7 @@ onClickOutside(btnAddTable, () => (showAddTableModal.value = false));
           <UITableError v-if="tablesError" />
           <div
             class="th-scroll-child text-center text-sm p-4 rounded-md self-end border border-indigo-300 border-dashed text-indigo-800 bg-indigo-200/50"
-            v-if="tables.length === 0"
+            v-if="tables?.length === 0"
           >
             Aucun tableau pour ce projet !
           </div>
