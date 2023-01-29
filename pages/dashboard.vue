@@ -115,9 +115,9 @@ onClickOutside(btnAddTable, () => (showAddTableModal.value = false));
         <ClientOnly>
           <template #fallback>
             <UITableLoading class="th-scroll-child self-end" />
-            <div class="th-scroll-child self-end" ref="btnAddTable">
+            <!-- <div class="th-scroll-child self-end" ref="btnAddTable">
               <UIBtnTableAdd @click="showAddTableModal = !showAddTableModal" />
-            </div>
+            </div> -->
           </template>
           <UITableLoading v-if="!tables" />
           <UITableError v-if="tablesError" />

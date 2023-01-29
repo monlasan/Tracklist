@@ -14,6 +14,7 @@ import {
 const props = defineProps({
   tableId: Number,
 });
+const emit = defineEmits(['cancelUpdate']);
 
 const { mutate: mutateTables } = useSWRV('http://localhost:3001/table');
 
@@ -46,6 +47,7 @@ async function updatingTable() {
     formNewTableName.tableName = '';
     $v.value.$reset();
     mutateTables();
+    emit('cancelUpdate');
   }
 }
 </script>

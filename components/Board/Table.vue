@@ -12,27 +12,42 @@ const openTicketModal = useStoreOpenNewTicketModal();
 // tableActionsPopup
 const showTableActionsPopup = ref(false);
 const tableActionsPopup = ref(null);
-// tableActionsModal
-const showTableActionsModal = ref(false);
-const tableActionsModal = ref(null);
+// tableUpdateModal
+const showTableUpdateModal = ref(false);
+const tableUpdateModal = ref(null);
+// tableDeleteModal
+const showTableDeleteModal = ref(false);
+const tableDeleteModal = ref(null);
 function showingUpdateModal() {
-  showTableActionsModal.value = true;
+  showTableUpdateModal.value = true;
+  showTableActionsPopup.value = false;
+}
+function showingDeleteModal() {
+  showTableDeleteModal.value = true;
   showTableActionsPopup.value = false;
 }
 onClickOutside(tableActionsPopup, () => (showTableActionsPopup.value = false));
-onClickOutside(tableActionsModal, () => (showTableActionsModal.value = false));
+onClickOutside(tableUpdateModal, () => (showTableUpdateModal.value = false));
+onClickOutside(tableDeleteModal, () => (showTableDeleteModal.value = false));
 </script>
 
 <template>
-  <!-- {{ table.id }} -->
   <div
     class="p-4 bg-task-2 th-scroll-child overflow-hidden min-w-[300px] rounded-md self-end"
   >
-    <!-- {{ table.id }} -->
-
-    <!-- <div ref="tableActionsModal"> -->
-    <div v-if="showTableActionsModal" class="absolute inset-0 bg-black/50 z-10">
-      <ModalUpdateTable ref="tableActionsModal" :tableId="table.id" />
+    <div v-if="showTableUpdateModal" class="absolute inset-0 bg-black/50 z-10">
+      <ModalUpdateTable
+        ref="tableUpdateModal"
+        :tableId="table.id"
+        @cancelUpdate="showTableUpdateModal = false"
+      />
+    </div>
+    <div v-if="showTableDeleteModal" class="absolute inset-0 bg-black/50 z-10">
+      <ModalDeleteTable
+        ref="tableDeleteModal"
+        :tableId="table.id"
+        @cancelDelete="showTableDeleteModal = false"
+      />
     </div>
     <div class="flex justify-between">
       <h4 class="text-lg text-zinc-800 font-medium">{{ table.name }}</h4>
@@ -58,6 +73,7 @@ onClickOutside(tableActionsModal, () => (showTableActionsModal.value = false));
           </button>
           <button
             class="flex hover:bg-zinc-100 items-center gap-2 p-1 px-2 rounded-md text-gray-600 text-xs whitespace-nowrap"
+            @click="showingDeleteModal"
           >
             <trash-icon size="18" class="text-zinc-700" />
             Supprimer tableau
