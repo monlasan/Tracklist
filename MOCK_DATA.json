@@ -1,3 +1,18 @@
 {
-  "table": []
+  "table": [
+    {
+      "createdAt": "Mon Jan 30 2023 07:59:07 GMT+0100 (heure normale d’Afrique de l’Ouest)",
+      "updatedAt": "2023-01-30T06:59:07.429Z",
+      "name": "News",
+      "tickets": [
+        1,
+        7,
+        9,
+        42
+      ],
+      "project": "30/01/2023 07:59:07",
+      "projectId": "196",
+      "id": 1
+    }
+  ]
 }
