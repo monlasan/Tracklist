@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -8,4 +5,74 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+model User {
+  id              String    @id @default(uuid())
+  firstName       String    @db.VarChar(255)
+  lastName        String    @db.VarChar(255)
+  email           String    @unique
+  password        String
+  confirmPassword String
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  tickets         Ticket[] // A user has MANY ticket he created
+  comments        Comment[] // A user has MANY comment
+  project         Project[]
+  role            Role      @default(DEVELOPER)
+}
+
+model Project {
+  id           String   @id @default(uuid())
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  name         String   @db.VarChar(255)
+  description  String
+  contributors User[]
+  tables       Table[]
+}
+
+model Table {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  name      String
+  tickets   Ticket[] // A table has MANY tickets
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId String
+}
+
+model Ticket {
+  id            String    @id @default(uuid())
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  title         String
+  description   String
+  tags          String
+  imageUrl      String?
+  estimatedTime Int
+  type          String
+  priority      String
+  initiator     User      @relation(fields: [initiatorId], references: [id])
+  initiatorId   String // A ticket is created by ONE user
+  table         Table     @relation(fields: [tableId], references: [id])
+  tableId       String // A ticket belong to ONE table
+  comments      Comment[] // A ticket has MANY comments
+}
+
+model Comment {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  content   String
+  ticket    Ticket   @relation(fields: [ticketId], references: [id])
+  ticketId  String // A comment belong to ONE ticket
+  author    User     @relation(fields: [authorId], references: [id])
+  authorId  String // A comment belong to ONE user
+}
+
+enum Role {
+  ADMIN
+  DEVELOPER
+  MANAGER
 }

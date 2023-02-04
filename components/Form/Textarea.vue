@@ -30,7 +30,7 @@ defineEmits(['update:modelValue']);
       @input="$emit('update:modelValue', $event.target.value)"
       v-bind="$attrs"
       :style="[tall ? 'height:' + tall + 'px' : null]"
-      class="outline-indigo-200 p-1 bg-zinc-100 px-2 text-base border w-full shadow-sm rounded-md"
+      class="outline-indigo-200 p-1 bg-zinc-100 px-2 text-base border w-full shadow-sm rounded-sm"
     >
     </textarea>
   </label>

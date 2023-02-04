@@ -10,7 +10,7 @@ defineProps({
 </script>
 <template>
   <div
-    class="text-xs flex self-start border border-dashed items-center w-fit uppercase bg-indigo-200 font-medium text-indigo-500 p-1 px-2 rounded-md"
+    class="text-xs flex self-start border border-dashed items-center w-fit uppercase bg-indigo-200 font-medium text-indigo-500 p-1 px-2 rounded-sm"
     :class="{
       'gap-1': $slots.icon,
       '!bg-red-50 border-red-400 !text-red-400': type === 'red',

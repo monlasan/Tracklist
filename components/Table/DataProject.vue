@@ -2,11 +2,19 @@
 import {
   KeyIcon,
   TrashIcon,
+  EyeIcon,
   EditIcon,
   LetterNIcon,
   UsersIcon,
   CalendarIcon,
+  SearchIcon,
 } from 'vue-tabler-icons';
+
+const search = ref('');
+
+const props = defineProps({
+  projects: null,
+});
 
 const headers = [
   { text: 'id', value: 'id', sortable: true },
@@ -14,53 +22,62 @@ const headers = [
   { text: 'contributeurs', value: 'contributors' },
   { text: 'créer le', value: 'createdAt', sortable: true },
   { text: 'modifié le', value: 'updatedAt', sortable: true },
+  { text: 'Actions', value: 'actions' },
 ];
 
-const items = [
-  {
-    id: '1',
-    name: 'Promox',
-    contributors: 30,
-    createdAt: '2023-01-30T06:49:07.429Z',
-    updatedAt: '2023-01-30T06:59:07.429Z',
-  },
-  {
-    id: '2',
-    name: 'Vander',
-    contributors: 12,
-    createdAt: '2023-01-30T06:59:07.429Z',
-    updatedAt: '2023-01-30T06:59:07.429Z',
-  },
-  {
-    id: '3',
-    name: 'JinxAll',
-    contributors: 45,
-    createdAt: '2023-01-30T06:36:07.429Z',
-    updatedAt: '2023-01-30T06:59:07.429Z',
-  },
-  {
-    id: '4',
-    name: 'Silkroad',
-    contributors: 7,
-    createdAt: '2023-01-30T06:59:07.429Z',
-    updatedAt: '2023-01-30T06:59:07.429Z',
-  },
-];
+// const items = [
+//   {
+//     id: '1',
+//     name: 'Promox',
+//     contributors: 30,
+//     createdAt: '2023-01-30T06:49:07.429Z',
+//     updatedAt: '2023-01-30T06:59:07.429Z',
+//   },
+// ];
+
+const showDetails = (id) => {
+  navigateTo('/projects/' + id);
+};
+const editProject = () => {};
+const deleteProject = () => {};
 </script>
 <template>
   <ClientOnly>
+    <div class="bg-white flex items-center px-2">
+      <i class="w-10 h-10 grid place-items-center text-zinc-600">
+        <search-icon size="20" />
+      </i>
+      <input
+        placeholder="Rechercher un projet..."
+        v-model="search"
+        type="search"
+        name="search"
+        id="search"
+        class="w-full h-full pl-2 py-2 outline-none"
+      />
+    </div>
+
     <EasyDataTable
+      :search-value="search"
       rows-per-page-message="Lignes par message"
       empty-message="Aucun projet trouvé"
       theme-color="#1230e3"
       table-class-name="eztble"
+      body-row-class-name="eztbleRow"
       :headers="headers"
-      :items="items"
+      :items="projects"
     >
       <template #header-id="header">
         <div class="custom-header">
           <key-icon size="18" />
           {{ header.text }}
+        </div>
+      </template>
+      <template #item-id="{ id }">
+        <div
+          class="limitedLinesOne overflow-hidden w-24 p-1 px-2 rounded-full bg-task-2 text-indigo-500"
+        >
+          {{ id }}
         </div>
       </template>
       <template #header-name="header">
@@ -87,16 +104,49 @@ const items = [
           {{ header.text }}
         </div>
       </template>
+      <template #header-actions="header">
+        <div class="custom-header">
+          {{ header.text }}
+        </div>
+      </template>
+      <!-- Action items for table -->
+      <template #item-actions="{ id }">
+        <div class="flex space-x-4 text-gray-500">
+          <button
+            class="flex items-center gap-1 text-indigo-500"
+            @click="showDetails(id)"
+          >
+            <eye-icon size="18" /> Détails
+          </button>
+          <button class="flex items-center gap-1" @click="editProject">
+            <edit-icon size="18" /> Modifier
+          </button>
+          <button class="flex items-center gap-1" @click="deleteProject">
+            <trash-icon size="18" /> Supprimer
+          </button>
+        </div>
+      </template>
     </EasyDataTable>
   </ClientOnly>
 </template>
 <style scoped>
+.limitedLinesOne {
+  --max-lines: 1;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: var(--max-lines);
+  line-clamp: var(--max-lines);
+  display: -webkit-box;
+  overflow: hidden;
+}
 .custom-header {
   display: flex;
   font-weight: 400;
   text-transform: lowercase;
   align-items: center;
   gap: 0.6em;
+}
+.eztbleRow {
+  cursor: pointer;
 }
 .eztble {
   --easy-table-border: 0px solid #445269;

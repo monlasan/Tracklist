@@ -85,7 +85,7 @@ onClickOutside(memberSelect, () => (query.value = ''));
         type="text"
         v-model="query"
         :id="name"
-        class="outline-indigo-200 p-1 px-2 pl-7 w-full max-w-[250px] text-base border border-b-0 rounded-tl-md rounded-tr-md"
+        class="outline-indigo-200 p-1 px-2 pl-7 w-full max-w-[250px] text-base border border-b-0 rounded-tl-sm rounded-tr-sm"
       />
     </div>
     <select
@@ -113,7 +113,7 @@ onClickOutside(memberSelect, () => (query.value = ''));
     </div> -->
 
     <div
-      class="border flex max-h-40 gap-2 items-start overflow-y-auto flex-wrap shadow rounded-md rounded-tl-none p-3 py-5 rounded-br-md"
+      class="border flex max-h-40 gap-2 items-start overflow-y-auto flex-wrap shadow rounded-sm rounded-tl-none p-3 py-5 rounded-br-sm"
     >
       <span
         class="flex whitespace-nowrap rounded-full text-center justify-center w-fit items-center bg-zinc-100 border border-zinc-300 p-1"

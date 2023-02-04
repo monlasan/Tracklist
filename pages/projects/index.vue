@@ -1,5 +1,8 @@
 <script setup>
 import { PlusIcon } from 'vue-tabler-icons';
+import { getAll } from '~~/fetch/projects';
+import useSWRV from 'swrv';
+const { data: projects } = useSWRV('/api/projects', getAll);
 </script>
 <template>
   <NuxtLayout>
@@ -16,6 +19,6 @@ import { PlusIcon } from 'vue-tabler-icons';
         <plus-icon size="20" />
       </button>
     </header>
-    <UIDataTable />
+    <TableDataProject :projects="projects" />
   </NuxtLayout>
 </template>

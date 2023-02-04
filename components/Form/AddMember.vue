@@ -55,7 +55,7 @@ onClickOutside(parent, () => (showMemberList.value = false));
           :id="name"
           v-model="query"
           @focus="showMemberList = true"
-          class="outline-indigo-200 p-1 px-2 pl-7 w-full bg-zinc-50 max-w-[250px] text-base border border-b-0 rounded-tl-md rounded-tr-md"
+          class="outline-indigo-200 p-1 px-2 pl-7 w-full bg-zinc-50 max-w-[250px] text-base border border-b-0 rounded-tl-sm rounded-tr-sm"
         />
       </div>
       <ul
@@ -79,7 +79,7 @@ onClickOutside(parent, () => (showMemberList.value = false));
       </ul>
 
       <div
-        class="border flex max-h-40 gap-2 items-start overflow-y-auto flex-wrap shadow-sm rounded-md rounded-tl-none rounded-tr-none p-3 rounded-br-md"
+        class="border flex max-h-40 gap-2 items-start overflow-y-auto flex-wrap shadow-sm rounded-sm rounded-tl-none rounded-tr-none p-3 rounded-br-sm"
       >
         <small
           class="text-xs mx-auto text-gray-700"

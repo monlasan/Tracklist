@@ -6,7 +6,7 @@ const props = defineProps({
 });
 </script>
 <template>
-  <li class="cursor-pointer transition-all py-3 bg-white rounded shadow">
+  <li class="cursor-pointer transition-all py-3 bg-white rounded-sm shadow">
     <div class="flex px-3 justify-between items-center">
       <UIBadge text="In review" />
 

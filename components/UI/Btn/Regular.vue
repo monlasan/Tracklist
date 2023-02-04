@@ -5,7 +5,7 @@ const props = defineProps({
   full: Boolean,
   type: {
     validator(value) {
-      return ['red', 'orange', 'blue', 'gray'].includes(value);
+      return ['red', 'orange', 'blue', 'gray', 'white'].includes(value);
     },
   },
 });
@@ -13,7 +13,7 @@ const props = defineProps({
 <template>
   <button
     :type="bType"
-    class="self-start p-2 gap-2 outline-none text-sm flex justify-center items-center text-white rounded-md bg-task-4 hover:bg-task-5 transition-colors"
+    class="self-start p-2 px-3 gap-2 outline-none text-sm flex justify-center items-center text-white rounded-sm bg-task-4 hover:bg-task-5 transition-colors"
     :class="{
       'gap-2': $slots.iconRight,
       'gap-2': $slots.iconLeft,
@@ -23,6 +23,8 @@ const props = defineProps({
       '!bg-orange-400  hover:!bg-orange-700': type === 'orange',
       '!bg-zinc-100 !text-zinc-600 border hover:!bg-zinc-200 hover:!text-zinc-700 ':
         type === 'gray',
+      '!bg-zinc-100 !text-task-4 border hover:!bg-zinc-200 hover:!text-task-5 ':
+        type === 'white',
     }"
   >
     <slot name="iconLeft" />

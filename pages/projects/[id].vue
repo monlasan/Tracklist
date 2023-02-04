@@ -1,6 +1,6 @@
 <script setup>
 import { onClickOutside } from '@vueuse/core';
-import { PlusIcon, BellIcon, LogoutIcon } from 'vue-tabler-icons';
+import { PlusIcon } from 'vue-tabler-icons';
 import useSWRV from 'swrv';
 
 import useVuelidate from '@vuelidate/core';
@@ -78,12 +78,15 @@ onClickOutside(btnAddTable, () => (showAddTableModal.value = false));
       class="flex p-9 py-4 bg-task-4 text-white justify-between items-center"
     >
       <h2 class="text-2xl font-semibold">Tickets</h2>
-      <button
+      <UIBtnRegular text="Nouveau projet" type="white" v-slot:iconRight>
+        <plus-icon size="20" />
+      </UIBtnRegular>
+      <!-- <button
         class="rounded-md p-2 font-medium px-3 text-sm text-indigo-700 bg-white flex items-center gap-2"
       >
         Nouveau projet
         <plus-icon size="20" />
-      </button>
+      </button> -->
     </header>
 
     <div class="grid p-9 th-scroll gap-6 w-full h-full">
@@ -115,7 +118,7 @@ onClickOutside(btnAddTable, () => (showAddTableModal.value = false));
             <form
               v-if="showAddTableModal"
               @submit.prevent="addingTable"
-              class="p-2 mt-4 rounded-md shadow-xl border"
+              class="p-2 mt-4 rounded-sm shadow-xl border"
             >
               <div class="flex items-center gap-2 mb-2">
                 <FormInputBase

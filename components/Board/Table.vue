@@ -8,7 +8,6 @@ const props = defineProps({
 
 // Stores
 const openTicketModal = useStoreOpenNewTicketModal();
-
 // tableActionsPopup
 const showTableActionsPopup = ref(false);
 const tableActionsPopup = ref(null);
@@ -33,7 +32,7 @@ onClickOutside(tableDeleteModal, () => (showTableDeleteModal.value = false));
 
 <template>
   <div
-    class="p-4 bg-task-2 th-scroll-child overflow-hidden min-w-[300px] rounded-md self-end"
+    class="p-4 bg-task-2 th-scroll-child overflow-hidden rounded-sm min-w-[300px] self-end"
   >
     <div v-if="showTableUpdateModal" class="absolute inset-0 bg-black/50 z-10">
       <ModalUpdateTable
@@ -60,40 +59,42 @@ onClickOutside(tableDeleteModal, () => (showTableDeleteModal.value = false));
         >
           <dots-icon size="18" />
         </UIBtnCircle>
-        <div
-          v-if="showTableActionsPopup"
-          class="flex flex-col gap-1 absolute right-0 top-8 z-10 p-2 rounded-md shadow-xl bg-white"
-        >
-          <button
-            class="flex hover:bg-zinc-100 items-center gap-2 p-1 px-2 rounded-md text-gray-600 text-xs whitespace-nowrap"
-            @click="showingUpdateModal"
+        <Transition name="modal">
+          <div
+            v-if="showTableActionsPopup"
+            class="flex flex-col gap-1 absolute right-0 top-8 z-10 p-2 rounded-sm shadow-xl bg-white"
           >
-            <edit-icon size="18" class="text-zinc-700" />
-            Editer tableau
-          </button>
-          <button
-            class="flex hover:bg-zinc-100 items-center gap-2 p-1 px-2 rounded-md text-gray-600 text-xs whitespace-nowrap"
-            @click="showingDeleteModal"
-          >
-            <trash-icon size="18" class="text-zinc-700" />
-            Supprimer tableau
-          </button>
-        </div>
+            <button
+              class="flex hover:bg-zinc-100 items-center gap-2 p-1 px-2 rounded-sm text-gray-600 text-xs whitespace-nowrap"
+              @click="showingUpdateModal"
+            >
+              <edit-icon size="18" class="text-zinc-700" />
+              Editer tableau
+            </button>
+            <button
+              class="flex hover:bg-zinc-100 items-center gap-2 p-1 px-2 rounded-sm text-gray-600 text-xs whitespace-nowrap"
+              @click="showingDeleteModal"
+            >
+              <trash-icon size="18" class="text-zinc-700" />
+              Supprimer tableau
+            </button>
+          </div>
+        </Transition>
       </div>
     </div>
 
     <button
       @click="openTicketModal = true"
-      class="text-sm my-3 flex items-center hover:bg-task-3 hover:border hover:border-indigo-200 hover:text-white border-task-2 border text-gray-600 gap-3 pr-3 p-1 rounded-md"
+      class="text-sm my-3 flex items-center hover:bg-task-3 hover:border hover:border-indigo-200 hover:text-white border-task-2 border text-gray-600 gap-3 pr-3 p-1 rounded-sm"
     >
-      <div class="bg-task-3 p-1 rounded-md text-white">
+      <div class="bg-task-3 p-1 rounded-sm text-white">
         <plus-icon size="17" />
       </div>
       Ajouter un ticket
     </button>
     <ul class="flex flex-col gap-4">
       <div
-        class="bg-indigo-100 border-indigo-300 text-center text-indigo-700 border border-dashed rounded-md p-8 py-4 text-xs"
+        class="bg-indigo-100 rounded-sm border-indigo-300 text-center text-indigo-700 border border-dashed p-8 py-4 text-xs"
       >
         Aucun ticket
       </div>
