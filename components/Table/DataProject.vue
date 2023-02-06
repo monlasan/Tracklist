@@ -9,12 +9,15 @@ import {
   CalendarIcon,
   SearchIcon,
 } from 'vue-tabler-icons';
+import { getAll } from '~~/fetch/projects';
 
+import useSWRV from 'swrv';
+const { data: projects, isValidating } = useSWRV('/api/projects', getAll);
 const search = ref('');
 
-const props = defineProps({
-  projects: null,
-});
+// const props = defineProps({
+//   projects: null,
+// });
 
 const headers = [
   { text: 'id', value: 'id', sortable: true },
@@ -58,6 +61,7 @@ const deleteProject = () => {};
     </div>
 
     <EasyDataTable
+      v-if="!isValidating"
       :search-value="search"
       rows-per-page-message="Lignes par message"
       empty-message="Aucun projet trouvé"

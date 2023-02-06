@@ -49,7 +49,7 @@ onClickOutside(tableDeleteModal, () => (showTableDeleteModal.value = false));
       />
     </div>
     <div class="flex justify-between">
-      <pre>{{ table.id }}</pre>
+      <pre class="text-xs">{{ table }}</pre>
       <h4 class="text-lg capitalize text-zinc-800 font-medium">
         {{ table.name }}
       </h4>
