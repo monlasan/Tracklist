@@ -1,6 +1,5 @@
 <script setup>
 import useSWRV from 'swrv';
-
 import { PlusIcon } from 'vue-tabler-icons';
 import useVuelidate from '@vuelidate/core';
 import {
@@ -10,13 +9,14 @@ import {
   helpers,
   alpha,
 } from '@vuelidate/validators';
+import { updateTable } from '~~/fetch/tables';
 
 const props = defineProps({
   tableId: Number,
 });
 const emit = defineEmits(['cancelUpdate']);
-
-const { mutate: mutateTables } = useSWRV('http://localhost:3001/table');
+const route = useRoute();
+const { mutate } = useSWRV(`/api/tables/${route.params.id}`);
 
 // Logic: Adding new table
 const formNewTableName = reactive({ tableName: '' });
@@ -34,25 +34,17 @@ const $v = useVuelidate(rules, formNewTableName);
 async function updatingTable() {
   const validated = await $v.value.$validate();
   if (validated) {
-    await fetch(`http://localhost:3001/table/${props.tableId}`, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        name: formNewTableName.tableName,
-      }),
-    });
+    await updateTable(formNewTableName.tableName, props.tableId);
 
     formNewTableName.tableName = '';
     $v.value.$reset();
-    mutateTables();
+    mutate();
     emit('cancelUpdate');
   }
 }
 </script>
 <template>
-  <form @submit.prevent="updatingTable" class="bg-white p-2 rounded-md m-4">
+  <form @submit.prevent="updatingTable" class="bg-white p-2 rounded-sm m-4">
     <div class="flex items-center gap-2 mb-2">
       <FormInputBase
         label="Entrer le nom du tableau"

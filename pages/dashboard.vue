@@ -1,8 +1,8 @@
 <script setup>
 import { PlusIcon } from 'vue-tabler-icons';
-import { getAll } from '~~/fetch/projects';
+import { getAll as getAllProjects } from '~~/fetch/projects';
 import useSWRV from 'swrv';
-const { data: projects } = useSWRV('/api/projects', getAll);
+const { data: projects } = useSWRV('/api/projects', getAllProjects);
 </script>
 <template>
   <NuxtLayout>

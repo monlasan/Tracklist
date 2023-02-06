@@ -1,20 +1,19 @@
 <script setup>
 import useSWRV from 'swrv';
+import { deleteTable } from '~~/fetch/tables';
 
+const route = useRoute();
 const props = defineProps({
   tableId: Number,
 });
 const emit = defineEmits(['cancelDelete']);
 
-const { mutate: mutateTables } = useSWRV('http://localhost:3001/table');
+const { mutate } = useSWRV(`/api/tables/${route.params.id}`);
 
 async function deletingTable() {
-  await fetch(`http://localhost:3001/table/${props.tableId}`, {
-    method: 'DELETE',
-  });
-
+  deleteTable(props.tableId);
   emit('cancelDelete');
-  mutateTables();
+  mutate();
 }
 </script>
 <template>

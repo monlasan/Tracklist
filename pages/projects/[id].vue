@@ -11,13 +11,18 @@ import {
   helpers,
   alpha,
 } from '@vuelidate/validators';
+import {
+  getAll as getAllTables,
+  addTable as addNewTable,
+} from '~~/fetch/tables';
 
-// FETCH TABLES DATA
-const {
-  data: tables,
-  error: tablesError,
-  mutate: mutateTables,
-} = useSWRV('http://localhost:3001/table');
+const route = useRoute();
+
+// Get All Tables for [id] project
+const { data: tables, mutate } = useSWRV(
+  `/api/tables/${route.params.id}`,
+  getAllTables
+);
 
 const showAddTableModal = ref(false);
 
@@ -41,25 +46,12 @@ const $v = useVuelidate(rules, formNewTable);
 async function addingTable() {
   const validated = await $v.value.$validate();
   if (validated) {
-    await fetch('http://localhost:3001/table', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        createdAt: new Date().toString(),
-        updatedAt: new Date().toISOString(),
-        name: formNewTable.tableName,
-        tickets: [1, 7, 9, 42],
-        project: new Date().toLocaleString(),
-        projectId: Math.floor(Math.random() * 500).toString(),
-      }),
-    });
+    await addNewTable(route.params.id, formNewTable.tableName);
+    mutate();
 
     showAddTableModal.value = false;
     formNewTable.tableName = '';
     $v.value.$reset();
-    mutateTables();
   }
 }
 // BTN ADD TABLE CLICK OUTSIDE
@@ -88,7 +80,6 @@ onClickOutside(btnAddTable, () => (showAddTableModal.value = false));
         <plus-icon size="20" />
       </button> -->
     </header>
-
     <div class="grid p-9 th-scroll gap-6 w-full h-full">
       <ClientOnly>
         <template #fallback>

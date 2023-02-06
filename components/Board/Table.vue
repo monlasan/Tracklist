@@ -49,7 +49,10 @@ onClickOutside(tableDeleteModal, () => (showTableDeleteModal.value = false));
       />
     </div>
     <div class="flex justify-between">
-      <h4 class="text-lg text-zinc-800 font-medium">{{ table.name }}</h4>
+      <pre>{{ table.id }}</pre>
+      <h4 class="text-lg capitalize text-zinc-800 font-medium">
+        {{ table.name }}
+      </h4>
 
       <div class="relative" ref="tableActionsPopup">
         <UIBtnCircle
@@ -94,11 +97,16 @@ onClickOutside(tableDeleteModal, () => (showTableDeleteModal.value = false));
     </button>
     <ul class="flex flex-col gap-4">
       <div
+        v-if="tables?.tickets.length === 0"
         class="bg-indigo-100 rounded-sm border-indigo-300 text-center text-indigo-700 border border-dashed p-8 py-4 text-xs"
       >
         Aucun ticket
       </div>
-      <!-- <Ticket createdAt="15 Nov 2022 - 12h30" /> -->
+      <Ticket
+        v-for="(ticket, index) in table?.tickets"
+        :ticket="ticket"
+        :key="table.id + index"
+      />
     </ul>
   </div>
 </template>
