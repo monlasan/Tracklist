@@ -414,6 +414,11 @@
   resolved "https://registry.yarnpkg.com/@formkit/auto-animate/-/auto-animate-1.0.0-beta.5.tgz#3fe4d520a82909cdcffa8854f26bc26ca4562045"
   integrity sha512-WoSwyhAZPOe6RB/IgicOtCHtrWwEpfKIZ/H/nxpKfnZL9CB6hhhBGU5bCdMRw7YpAUF2CDlQa+WWh+gCqz5lDg==
 
+"@headlessui/tailwindcss@^0.1.2":
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/@headlessui/tailwindcss/-/tailwindcss-0.1.2.tgz#f49a88f00b235fe812583ece8bdb1038b096646d"
+  integrity sha512-AQNESz+f1grCxifrocOE6hDMDFqhqY0g3xrSGOS0ocGkmVkssaBzXaAPAPNSs/nHmr4ZUhfl5THQpYrvaouWlQ==
+
 "@headlessui/vue@^1.7.9":
   version "1.7.9"
   resolved "https://registry.yarnpkg.com/@headlessui/vue/-/vue-1.7.9.tgz#459e4ad6a14add4c70c616b10e1aab5a720ff87d"
@@ -482,6 +487,11 @@
     koa-compose "^4.1.0"
     methods "^1.1.2"
     path-to-regexp "^6.1.0"
+
+"@kurkle/color@^0.3.0":
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/@kurkle/color/-/color-0.3.2.tgz#5acd38242e8bde4f9986e7913c8fdf49d3aa199f"
+  integrity sha512-fuscdXJ9G1qb7W8VdHi+IwRqij3lBkosAm4ydQtEmbY58OzHXqQhvlxqEkoz0yssNVn38bcpRWgA9PP+OGoisw==
 
 "@mapbox/node-pre-gyp@^1.0.5":
   version "1.0.10"
@@ -1499,6 +1509,13 @@ chardet@^0.7.0:
   version "0.7.0"
   resolved "https://registry.yarnpkg.com/chardet/-/chardet-0.7.0.tgz#90094849f0937f2eedc2425d0d28a9e5f0cbad9e"
   integrity sha512-mT8iDcrh03qDGRRmoA2hmBJnxpllMR+0/0qlzjqZES6NdiWDcZkCNAk4rPFZ9Q85r27unkiNNg8ZOiwZXBHwcA==
+
+chart.js@^4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/chart.js/-/chart.js-4.2.0.tgz#dd281b2ce890bff32f3e249cf2972a1e74bc032c"
+  integrity sha512-wbtcV+QKeH0F7gQZaCJEIpsNriFheacouJQTVIjITi3eQA8bTlIBoknz0+dgV79aeKLNMAX+nDslIVE/nJ3rzA==
+  dependencies:
+    "@kurkle/color" "^0.3.0"
 
 "chokidar@>=3.0.0 <4.0.0", chokidar@^3.5.1, chokidar@^3.5.3:
   version "3.5.3"
@@ -5265,6 +5282,11 @@ vue-bundle-renderer@^1.0.0:
   dependencies:
     ufo "^1.0.0"
 
+vue-chartjs@^5.2.0:
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/vue-chartjs/-/vue-chartjs-5.2.0.tgz#3d0076ccf8016d1bf8fab5ccd837e7fb81005ded"
+  integrity sha512-d3zpKmGZr2OWHQ1xmxBcAn5ShTG917+/UCLaSpaCDDqT0U7DBsvFzTs69ZnHCgKoXT55GZDW8YEj9Av+dlONLA==
+
 vue-demi@*, vue-demi@^0.13.11:
   version "0.13.11"
   resolved "https://registry.yarnpkg.com/vue-demi/-/vue-demi-0.13.11.tgz#7d90369bdae8974d87b1973564ad390182410d99"
@@ -5286,6 +5308,11 @@ vue-tabler-icons@^2.17.0:
   version "2.17.0"
   resolved "https://registry.yarnpkg.com/vue-tabler-icons/-/vue-tabler-icons-2.17.0.tgz#e339f2c314197b4f076e923296f77ae3a44d399c"
   integrity sha512-VEgm9tBwQ96asVVOp3+10zJvOLWg/kY5oV3/n4cAHPVPpsJrj/3z76JBm8WrRxTk9WNwnYl1JqzeCnhChGSFqw==
+
+vue-toastification@^2.0.0-rc.5:
+  version "2.0.0-rc.5"
+  resolved "https://registry.yarnpkg.com/vue-toastification/-/vue-toastification-2.0.0-rc.5.tgz#92798604d806ae473cfb76ed776fae294280f8f8"
+  integrity sha512-q73e5jy6gucEO/U+P48hqX+/qyXDozAGmaGgLFm5tXX4wJBcVsnGp4e/iJqlm9xzHETYOilUuwOUje2Qg1JdwA==
 
 vue3-easy-data-table@^1.5.27:
   version "1.5.27"

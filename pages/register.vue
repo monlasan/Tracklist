@@ -10,9 +10,12 @@ import {
   helpers,
 } from '@vuelidate/validators';
 
-/**
- * TODO: Refactor this methods that it use supabase to login a user
- */
+definePageMeta({
+  middleware: ['auth'],
+});
+
+const inProcess = ref();
+
 const formLogin = reactive({
   firstName: '',
   lastName: '',
@@ -56,11 +59,35 @@ const rules = computed(() => {
   };
 });
 const $v = useVuelidate(rules, formLogin);
-async function handleLogin() {
-  const validatedLogin = await $v.value.$validate();
-  if (validatedLogin) {
-    //TODO: Add real supabase registration logic here
-    console.log(formLogin);
+const client = useSupabaseAuthClient();
+
+async function handleRegistration() {
+  inProcess.value = true;
+  const validatedRegistration = await $v.value.$validate();
+  if (validatedRegistration) {
+    // CREATE SUPABASE USER (auth)
+    const { data, error } = await client.auth.signUp({
+      email: formLogin.email,
+      password: formLogin.password,
+    });
+    console.log(data);
+    if (!error) {
+      // CREATE SUPABASE USER (profile)
+      await $fetch('/api/members', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id: data.user.id,
+          firstName: formLogin.firstName,
+          lastName: formLogin.lastName,
+          email: formLogin.email,
+        }),
+      });
+      // Navigate to dashboard
+      navigateTo('/login');
+    }
 
     formLogin.firstName = '';
     formLogin.lastName = '';
@@ -68,8 +95,16 @@ async function handleLogin() {
     formLogin.password = '';
     formLogin.confirmPassword = '';
     $v.value.$reset();
+    inProcess.value = false;
   }
 }
+
+const user = useSupabaseUser();
+onMounted(() => {
+  if (user.value) {
+    navigateTo('/dashboard');
+  }
+});
 </script>
 <template>
   <div class="flex-1 px-6 bg-indigo-50">
@@ -77,7 +112,7 @@ async function handleLogin() {
       <title>Inscription - Tracklist</title>
     </Head>
     <form
-      @submit.prevent="handleLogin"
+      @submit.prevent="handleRegistration"
       class="p-6 relative bg-white shadow max-w-md rounded-md mx-auto mt-24"
     >
       <UILogoFull />
@@ -180,6 +215,14 @@ async function handleLogin() {
       </div>
 
       <UIBtnRegular
+        :disabled="
+          inProcess ||
+          formLogin.confirmPassword == '' ||
+          formLogin.lastName == '' ||
+          formLogin.firstName == '' ||
+          formLogin.email == '' ||
+          formLogin.password == ''
+        "
         bType="submit"
         text="S'inscrire"
         type="blue"

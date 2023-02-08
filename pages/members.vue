@@ -3,6 +3,9 @@ import { PlusIcon } from 'vue-tabler-icons';
 </script>
 <template>
   <NuxtLayout>
+    <Head>
+      <title>Membres - Tracklist</title>
+    </Head>
     <header
       class="flex p-9 py-4 bg-task-4 text-white justify-between items-center"
     >
@@ -15,6 +18,5 @@ import { PlusIcon } from 'vue-tabler-icons';
         <plus-icon size="20" />
       </button>
     </header>
-    <UIDataTable />
   </NuxtLayout>
 </template>

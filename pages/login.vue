@@ -1,5 +1,6 @@
 <script setup>
 import useVuelidate from '@vuelidate/core';
+import useToast from '~~/composables/useToast';
 import {
   required,
   email,
@@ -9,9 +10,12 @@ import {
   helpers,
 } from '@vuelidate/validators';
 
-/**
- * TODO: Refactor this methods that it use supabase to login a user
- */
+import { useAuthMetadataStore } from '~~/composables/states';
+const memberAuth = useAuthMetadataStore();
+definePageMeta({
+  middleware: ['auth'],
+});
+const inProcess = ref();
 const formLogin = reactive({
   email: '',
   password: '',
@@ -33,26 +37,45 @@ const rules = {
   },
 };
 const $v = useVuelidate(rules, formLogin);
+
+const client = useSupabaseAuthClient();
 async function handleLogin() {
+  inProcess.value = true;
   const validatedLogin = await $v.value.$validate();
   if (validatedLogin) {
-    //TODO: Add real supabase login logic here
-    login();
-    console.log(formLogin);
+    // CREATE SUPABASE USER (auth)
+    try {
+      const { data, error } = await client.auth.signInWithPassword({
+        email: formLogin.email,
+        password: formLogin.password,
+      });
 
-    formLogin.email = '';
-    formLogin.password = '';
-    $v.value.$reset();
+      if (error && error.status === 400) {
+        const err = error.message;
+        if (err.toLowerCase() === 'invalid login credentials')
+          useToast().error('Identifiants incorrects !');
+        if (err.toLowerCase() === 'email not confirmed')
+          useToast().error(
+            'Email non confirmer, veuillez confirmer votre inscription !'
+          );
+      }
+
+      formLogin.email = '';
+      formLogin.password = '';
+      $v.value.$reset();
+    } finally {
+      inProcess.value = false;
+    }
   }
 }
-async function login() {
-  // const { user, error } = await client.auth.signUp({
-  //   email: email.value,
-  //   password: password.value
-  // })
-  console.log('user', user);
-  console.log('error', error);
-}
+const user = useSupabaseUser();
+onMounted(() => {
+  watchEffect(async () => {
+    if (user.value) {
+      navigateTo('/dashboard');
+    }
+  });
+});
 </script>
 <template>
   <div class="flex-1 px-6 bg-indigo-50">
@@ -65,6 +88,7 @@ async function login() {
     >
       <UILogoFull />
       <div class="flex flex-col gap-2">
+        {{ memberAuth }}
         <div class="grid grid-cols-3 items-center mt-2">
           <span class="border-b"></span>
           <h2 class="mx-auto inline text-zinc-700">Connexion</h2>
@@ -108,6 +132,9 @@ async function login() {
       </div>
 
       <UIBtnRegular
+        :disabled="
+          inProcess || formLogin.email == '' || formLogin.password == ''
+        "
         bType="submit"
         text="Se connecter"
         type="blue"

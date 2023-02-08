@@ -5,6 +5,7 @@ import {
   EyeIcon,
   EditIcon,
   LetterNIcon,
+  LetterDIcon,
   UsersIcon,
   CalendarIcon,
   SearchIcon,
@@ -22,6 +23,7 @@ const search = ref('');
 const headers = [
   { text: 'id', value: 'id', sortable: true },
   { text: 'nom', value: 'name' },
+  { text: 'description', value: 'description', width: 300 },
   { text: 'contributeurs', value: 'contributors' },
   { text: 'créer le', value: 'createdAt', sortable: true },
   { text: 'modifié le', value: 'updatedAt', sortable: true },
@@ -90,6 +92,12 @@ const deleteProject = () => {};
           {{ header.text }}
         </div>
       </template>
+      <template #header-description="header">
+        <div class="custom-header">
+          <letter-d-icon size="18" />
+          {{ header.text }}
+        </div>
+      </template>
       <template #header-contributors="header">
         <div class="custom-header">
           <users-icon size="18" />
@@ -120,13 +128,13 @@ const deleteProject = () => {};
             class="flex items-center gap-1 text-indigo-500"
             @click="showDetails(id)"
           >
-            <eye-icon size="18" /> Détails
+            <eye-icon size="18" />
           </button>
           <button class="flex items-center gap-1" @click="editProject">
-            <edit-icon size="18" /> Modifier
+            <edit-icon size="18" />
           </button>
           <button class="flex items-center gap-1" @click="deleteProject">
-            <trash-icon size="18" /> Supprimer
+            <trash-icon size="18" />
           </button>
         </div>
       </template>

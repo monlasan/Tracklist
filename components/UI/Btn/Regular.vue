@@ -3,6 +3,7 @@ const props = defineProps({
   text: String,
   bType: String,
   full: Boolean,
+  disabled: Boolean,
   type: {
     validator(value) {
       return ['red', 'orange', 'blue', 'gray', 'white'].includes(value);
@@ -12,8 +13,9 @@ const props = defineProps({
 </script>
 <template>
   <button
+    :disabled="disabled"
     :type="bType"
-    class="self-start p-2 px-3 gap-2 outline-none text-sm flex justify-center items-center text-white rounded-sm bg-task-4 hover:bg-task-5 transition-colors"
+    class="self-start p-2 disabled:opacity-60 px-3 gap-2 outline-none text-sm flex justify-center items-center text-white rounded-sm bg-task-4 hover:bg-task-5 transition-colors"
     :class="{
       'gap-2': $slots.iconRight,
       'gap-2': $slots.iconLeft,

@@ -10,22 +10,22 @@
       >
       <nuxt-link
         class="p-2 rounded-md hover:bg-white/10 transition-colors"
-        to="dashboard"
+        to="/dashboard"
         >Dashboard</nuxt-link
       >
       <nuxt-link
         class="p-2 rounded-md hover:bg-white/10 transition-colors"
-        to="login"
+        to="/login"
         >Login</nuxt-link
       >
       <nuxt-link
         class="p-2 rounded-md hover:bg-white/10 transition-colors"
-        to="register"
+        to="/register"
         >Register</nuxt-link
       >
       <nuxt-link
         class="p-2 rounded-md hover:bg-white/10 transition-colors"
-        to="widgets"
+        to="/widgets"
         >Widgets</nuxt-link
       >
     </nav>

@@ -7,19 +7,17 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id              String    @id @default(uuid())
-  firstName       String    @db.VarChar(255)
-  lastName        String    @db.VarChar(255)
-  email           String    @unique
-  password        String
-  confirmPassword String
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
-  tickets         Ticket[] // A user has MANY ticket he created
-  comments        Comment[] // A user has MANY comment
-  project         Project[]
-  role            Role      @default(DEVELOPER)
+model Member {
+  id               String    @id
+  firstName        String    @db.VarChar(255)
+  lastName         String    @db.VarChar(255)
+  photoUrl         String?
+  email            String    @unique
+  ticketsCreated   Ticket[]  @relation("Initiator") // A Member has MANY ticket he created
+  ticketsAssigned  Ticket[] // A Member has MANY tickets assigned to him
+  comments         Comment[] // A Member has MANY comment
+  projectsAssigned Project[] // A Member is assigned to MANY projects
+  role             Role      @default(DEVELOPER)
 }
 
 model Project {
@@ -28,7 +26,7 @@ model Project {
   updatedAt    DateTime @updatedAt
   name         String   @db.VarChar(255)
   description  String
-  contributors User[]
+  contributors Member[] // MANY Members contributes to the project
   tables       Table[]
 }
 
@@ -53,8 +51,9 @@ model Ticket {
   estimatedTime Int
   type          String
   priority      String
-  initiator     User      @relation(fields: [initiatorId], references: [id])
-  initiatorId   String // A ticket is created by ONE user
+  assignedUsers Member[] // A ticket can be assigned to MANY Members
+  initiator     Member    @relation("Initiator", fields: [initiatorId], references: [id])
+  initiatorId   String // A ticket is created by ONE Member
   table         Table     @relation(fields: [tableId], references: [id])
   tableId       String // A ticket belong to ONE table
   comments      Comment[] // A ticket has MANY comments
@@ -67,8 +66,8 @@ model Comment {
   content   String
   ticket    Ticket   @relation(fields: [ticketId], references: [id])
   ticketId  String // A comment belong to ONE ticket
-  author    User     @relation(fields: [authorId], references: [id])
-  authorId  String // A comment belong to ONE user
+  author    Member   @relation(fields: [authorId], references: [id])
+  authorId  String // A comment belong to ONE Member
 }
 
 enum Role {

@@ -1,5 +1,3 @@
-import { GitPullRequestClosedIcon } from 'vue-tabler-icons';
-
 // Get All Projects
 export async function getAll() {
   try {
